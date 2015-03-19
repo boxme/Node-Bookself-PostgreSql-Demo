@@ -1,20 +1,7 @@
-var knex = require("knex")({
-	client: "pq",
-	connection: {
-		host: ,
-		user: ,
-		password: ,
-		database: 
-	},
-});
+"use strict";
 
-var Schema = require("../data/schema.js");
-var Bookshelf = require("bookshelf")(knex);
+var Bookshelf = require("../server.js");
 var moment = require("moment");
-var Promise = require("bluebird");
-var _ = require("lodash");
-
-Bookshelf.plugin("visibility");
 
 var User = Bookshelf.Model.extend({
 	tableName: "users"
@@ -51,5 +38,3 @@ var Tag = Bookshelf.Model.extend({
 	}
 });
 exports.Tag = Tag;
-
-exports.Bookshelf = Bookshelf;

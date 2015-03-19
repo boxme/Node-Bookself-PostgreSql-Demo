@@ -1,3 +1,5 @@
+"use strict";
+
 var Schema = {
 	users: {
 		id: {type: "increments", nullable: false, primary: true},
@@ -25,6 +27,7 @@ var Schema = {
 		name: {type: "string", nullable: false}
 	}
 
+	// A table for many-to-many relation between tags table & posts table
 	posts_tags: {
 		id: {type: "increments", nullable: false, primary: true},
 		post_id: {type: "integer", nullable: false, unsigned: true, references: "blogposts.id"},
