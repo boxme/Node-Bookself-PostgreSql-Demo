@@ -4,26 +4,27 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-  	"start": "node app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-      "node": "0.10.x"
+    "node": "0.10.x"
   },
   "dependencies": {
-  	"async": "*",
-  	"bluebird": "*",
-  	"body-parser": "*",
-  	"bookshelf": "*",
-  	"ejs": "*",
-  	"errorhandler": "*",
-  	"express": "*",
-  	"imagemagick": "*",
-  	"jquery": "*",
-  	"knex": "*",
-  	"pg": "*",
-	"request": "*",
-  	"lodash": "*"
+    "async": "*",
+    "bluebird": "*",
+    "body-parser": "*",
+    "bookshelf": "*",
+    "ejs": "*",
+    "errorhandler": "*",
+    "express": "*",
+    "imagemagick": "*",
+    "jquery": "*",
+    "knex": "*",
+    "lodash": "*",
+    "moment": "^2.9.0",
+    "pg": "*",
+    "request": "*"
   },
   "author": "Desmond Ng",
   "license": "ISC"

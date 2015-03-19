@@ -8,41 +8,48 @@ var knex = require("knex")({
 	},
 });
 
-var Bookself = require("bookself")(knex);
-Bookself.plugin("visibility");
+var Schema = require("../data/schema.js");
+var Bookshelf = require("bookshelf")(knex);
+var moment = require("moment");
+var Promise = require("bluebird");
+var _ = require("lodash");
 
-var User = Bookself.Model.extend({
+Bookshelf.plugin("visibility");
+
+var User = Bookshelf.Model.extend({
 	tableName: "users"
 });
 exports.User = User;
 
-var Blogpost = Bookself.Model.extend({
-	tableName: "blogpost",
-	hasTimestamps : true,
+var Category = Bookshelf.Model.extend({
+	tableName: "categories",
+});
+exports.Category = Category;
+
+var Blogpost = Bookshelf.Model.extend({
+	tableName: "blogposts",
 	category: function() {
+		// one-to-one or one-to-many
 		return this.belongsTo(Category, "category_id");
 	},
 	tags: function() {
-		return this.belongsToMany(Tag);
+		// many-to-many
+		return this.belongsToMany(Tag, "tag_id");
 	},
 	author: function() {
-		return this.belogsTo(User);
+		// Bookshelf assumes that table names are plurals 
+		// and that the foreignkey is the singular table name fixed with _id
+		return this.belongsTo(User, "user_id");
 	}
 });
 exports.Blogpost = Blogpost;
 
-var Category = Bookself.Model.extend({
-	tableName: "categories",
-	blogpost: function() {
-		return this.belongsToMany(Blogpost, "cateogory_id");
-	}
-});
-exports.Category = Category;
-
-var Tag = Bookself.Model.extend({
+var Tag = Bookshelf.Model.extend({
 	tableName: "tags",
 	blogpost: function() {
-		return this.belongsToMany(Blogpost);
+		return this.belongsToMany(Blogpost, "post_id");
 	}
 });
 exports.Tag = Tag;
+
+exports.Bookshelf = Bookshelf;
