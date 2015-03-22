@@ -1,27 +1,15 @@
 "use strict";
 
-var Schema = require("../data/schema.js");
-var Bookshelf = require("bookshelf")(knex);
+var Schema = require("./data/schema.js");
 var Moment = require("moment");
 var Promise = require("bluebird");
+var Async = require("async");
 var _ = require("lodash");
 var App = require("express");
-
-var Knex = require("knex")({
-	client: "pq",
-	connection: {
-		host: "localhost",
-		user: "boxme",
-		password: "Ab123456!",
-		database: "blogsite"
-	},
-});
-
-var Bookshelf = require("bookshelf")(Knex);
-Bookshelf.plugin("visibility");
+var Models = require("./models/index.js");
 
 var createTable = function (tableName) {
-	return tableName.knex.schema.createTable(tableName, function (table) {
+	return Models.Bookshelf.knex.schema.createTable(tableName, function (table) {
 		var column;
 		var columnKeys = _.keys(Schema[tableName]);
 
@@ -63,14 +51,52 @@ var createTable = function (tableName) {
 	});
 };
 
-var initDb = function (tableName) {
-	tableName.forEach(function (name) {
-		Bookshelf.knex.schema.hasTable(name).then(function (exists) {
-			if (!exists) {
-				// Create table
-			}
-		});
+var doesTableExist = function (tableName) {
+	return Models.Bookshelf.knex.schema.hasTable(tableName);
+};
+
+var initDb = function () {
+	var calls = [];
+	var tableNames = _.keys(Schema);
+
+	tableNames.forEach(function (tableName) {
+
+		var f = function (callback) {
+			doesTableExist(tableName)
+			.then(function (exists) {
+				if (!exists) {
+					console.log("Creating database table " + tableName + "...");
+
+					createTable(tableName)
+					.then(function (result) {
+						console.log("---> Created database table " + tableName);
+						callback(null, result);
+					})
+					.catch(function (err) {
+						console.log("Error creating " + tableName + " table " + err);
+						callback(err, null);
+					});
+
+				} else {
+					callback(null, exists);
+				}
+			})
+			.catch(function (error) {
+				console.log("Error creating " + tableName + " table " + error);
+				callback(error, null)
+			});
+		};
+
+		calls.push(f);
+	});
+
+	Async.series(calls, function (err, result) {
+		if (!err) {
+			console.log("Finished initialising database table");
+		} else {
+			console.log("Error initialising database table: " + err);
+		}
 	});
 };
 
-exports = Bookshelf;
+initDb();

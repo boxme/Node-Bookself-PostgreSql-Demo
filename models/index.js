@@ -1,7 +1,19 @@
 "use strict";
 
-var Bookshelf = require("../server.js");
 var moment = require("moment");
+
+var Knex = require("knex")({
+	client: "pg",
+	connection: {
+		host: "localhost",
+		user: "",
+		password: "",
+		database: "blogsite"
+	}
+});
+
+var Bookshelf = require("bookshelf")(Knex);
+Bookshelf.plugin("visibility");
 
 var User = Bookshelf.Model.extend({
 	tableName: "users"
@@ -38,3 +50,5 @@ var Tag = Bookshelf.Model.extend({
 	}
 });
 exports.Tag = Tag;
+
+exports.Bookshelf = Bookshelf;
