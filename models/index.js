@@ -33,11 +33,14 @@ var Blogpost = Bookshelf.Model.extend({
 	},
 	tags: function() {
 		// many-to-many
+		// 1st param: ClassName of related table
+		// 2nd param: Name of related table
+		// Other params: Foreign Keys
 		return this.belongsToMany(Tag, "posts_tags", "tag_id");
 	},
 	author: function() {
 		// Bookshelf assumes that table names are plurals 
-		// and that the foreignkey is the singular table name fixed with _id
+		// and that the foreignkey is the singular name of the related table fixed with _id
 		return this.belongsTo(User, "user_id");
 	}
 });

@@ -5,11 +5,10 @@ var Moment = require("moment");
 var Promise = require("bluebird");
 var Async = require("async");
 var _ = require("lodash");
-var App = require("express");
-var Models = require("./models/index.js");
+var Model = require("./models/index.js");
 
 var createTable = function (tableName) {
-	return Models.Bookshelf.knex.schema.createTable(tableName, function (table) {
+	return Model.Bookshelf.knex.schema.createTable(tableName, function (table) {
 		var column;
 		var columnKeys = _.keys(Schema[tableName]);
 
@@ -52,7 +51,7 @@ var createTable = function (tableName) {
 };
 
 var doesTableExist = function (tableName) {
-	return Models.Bookshelf.knex.schema.hasTable(tableName);
+	return Model.Bookshelf.knex.schema.hasTable(tableName);
 };
 
 var initDb = function () {
@@ -99,4 +98,4 @@ var initDb = function () {
 	});
 };
 
-initDb();
+exports.initialisation = initDb;
