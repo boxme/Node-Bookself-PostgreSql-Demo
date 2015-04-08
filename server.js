@@ -5,7 +5,8 @@ var Express = require("express"),
     Http = require("http"),
     BodyParser = require("body-parser"),
     Db = require("./database.js"),
-    UsersController = require("./routes/user.js");
+    UserController = require("./routes/user.js"),
+    CategoryController = require("./routes/category.js");
 
 App.use(BodyParser.urlencoded({"extended": true}));
 App.use(BodyParser.json());
@@ -14,8 +15,14 @@ Http.createServer(App).listen(3000);
 
 Db.initialisation();
 
-App.get("/users", UsersController.getAllUsers);
-App.get("/users/:id", UsersController.getUser);
-App.post("/users", UsersController.create);
-App.put("/users/:id", UsersController.update);
-App.delete("/users/:id", UsersController.destroy);
+App.get("/users", UserController.getAll);
+App.get("/users/:id", UserController.getUser);
+App.post("/users", UserController.create);
+App.put("/users/:id", UserController.update);
+App.delete("/users/:id", UserController.destroy);
+
+App.get("/categories", CategoryController.getAll);
+App.get("categories/:id", CategoryController.getCategory);
+App.post("categories/", CategoryController.create);
+App.put("categories/:id", CategoryController.update);
+App.delete("categories/:id", CategoryController.destroy);

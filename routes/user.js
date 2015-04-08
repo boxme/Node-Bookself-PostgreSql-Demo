@@ -1,11 +1,11 @@
 "use strict";
 
-var UsersController = {},
+var UserController = {},
 	Collections = require("../data/collection.js"),
 	Model = require("../models/index.js");
 
-UsersController.getAllUsers = function (req, res) {
-	Collections.UsersCollection.forge()
+UserController.getAll = function (req, res) {
+	Collections.UserCollection.forge()
 	.fetch()
 	.then(function (result) {
 		res.status(200).json(result);
@@ -15,8 +15,8 @@ UsersController.getAllUsers = function (req, res) {
 	});
 };
 
-UsersController.create = function (req, res) {
-	Collections.UsersCollection.forge({
+UserController.create = function (req, res) {
+	Collections.UserCollection.forge({
 		name: req.body.name,
 		email: req.body.email
 	})
@@ -29,8 +29,8 @@ UsersController.create = function (req, res) {
 	});
 };
 
-UsersController.getUser = function (req, res) {
-	Collections.UsersCollection.forge({
+UserController.getUser = function (req, res) {
+	Collections.UserCollection.forge({
 		id: req.params.id
 	})
 	.fetch()
@@ -46,8 +46,8 @@ UsersController.getUser = function (req, res) {
 	});
 };
 
-UsersController.update = function (req, res) {
-	Collections.UsersCollection.forge({
+UserController.update = function (req, res) {
+	Collections.UserCollection.forge({
 		id: req.params.id
 	})
 	.fetch({
@@ -74,8 +74,8 @@ UsersController.update = function (req, res) {
 	});
 };
 
-UsersController.destroy = function (req, res) {
-	Collections.UsersCollection.forge({
+UserController.destroy = function (req, res) {
+	Collections.UserCollection.forge({
 		id: req.params.id
 	})
 	.fetch({
@@ -99,4 +99,4 @@ UsersController.destroy = function (req, res) {
 	})
 };
 
-module.exports = UsersController;
+module.exports = UserController;
