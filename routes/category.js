@@ -1,8 +1,7 @@
 "use strict";
 
 var CategoryController = {},
-	Collections = require("../data/collection.js"),
-	Model = require("../models/index.js");
+	Collections = require("../data/collection.js");
 
 CategoryController.getAll = function (req, res) {
 	Collections.CategoryCollection.forge()
@@ -19,7 +18,7 @@ CategoryController.create = function (req, res) {
 	Collections.CategoryCollection.forge({
 		name: req.body.name
 	})
-	.save()
+	.create()
 	.then(function (result) {
 		res.status(200).json(result);
 	})
@@ -54,7 +53,7 @@ CategoryController.update = function (req, res) {
 		require: true
 	})
 	.then(function (category) {
-		category.save({
+		category.create({
 			name: req.body.name || category.get("name")
 		})
 		.then(function (result) {

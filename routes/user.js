@@ -1,13 +1,13 @@
 "use strict";
 
 var UserController = {},
-	Collections = require("../data/collection.js"),
-	Model = require("../models/index.js");
+	Collections = require("../data/collection.js");
 
 UserController.getAll = function (req, res) {
 	Collections.UserCollection.forge()
 	.fetch()
 	.then(function (result) {
+		console.log(result);
 		res.status(200).json(result);
 	})
 	.catch(function (err) {
@@ -16,17 +16,20 @@ UserController.getAll = function (req, res) {
 };
 
 UserController.create = function (req, res) {
-	Collections.UserCollection.forge({
-		name: req.body.name,
-		email: req.body.email
-	})
-	.save()
-	.then(function (result) {
-		res.status(200).json(result);
-	})
-	.catch(function (err) {
-		res.status(500).json(err);
-	});
+	console.log("create new user");
+	console.log(req.body.name);
+	// Collections.UserCollection.forge({
+	// 	name: req.body.name,
+	// 	email: req.body.email
+	// })
+	// .create()
+	// .then(function (result) {
+	// 	console.log(result);
+	// 	res.status(200).json(result);
+	// })
+	// .othewise(function (err) {
+	// 	res.status(500).json(err);
+	// });
 };
 
 UserController.getUser = function (req, res) {
@@ -38,6 +41,7 @@ UserController.getUser = function (req, res) {
 		if (!result) {
 			res.status(404).json({});
 		} else {
+			console.log(result);
 			res.status(200).json(result)
 		}
 	})
@@ -57,7 +61,7 @@ UserController.update = function (req, res) {
 		if (!user) {
 			res.status(404).json({});
 		} else {
-			user.save({
+			user.create({
 				name: req.body.name || user.get("name"),
 				email: req.body.email || user.get("email")
 			})
