@@ -5,21 +5,19 @@ var Express = require("express"),
     Http = require("http"),
     BodyParser = require("body-parser"),
     Router = Express.Router(),
+    MethodOverride = require('method-override'),
     Db = require("./database.js"),
     UserController = require("./routes/user.js"),
     CategoryController = require("./routes/category.js");
 
-App.set('port', 3000);
+// App.set('port', 3000);
+App.use(MethodOverride());
 App.use(BodyParser.json());
-App.use(BodyParser.urlencoded({"extended": true}));
+App.use(BodyParser.urlencoded({extended: true}));
 
-// Http.createServer(App).listen(3000);
 Db.initialisation();
 
-var server = Http.Server(App);
-server.listen(App.get("port"), function () {
-	console.log("Express server listening on port " + App.get("port"));
-});
+Http.createServer(App).listen(3000);
 
 App.get("/users", UserController.getAll);
 App.get("/users/:id", UserController.getUser);

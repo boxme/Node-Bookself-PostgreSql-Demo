@@ -18,6 +18,7 @@ UserController.getAll = function (req, res) {
 UserController.create = function (req, res) {
 	console.log("create new user");
 	console.log(req.body.name);
+	console.log(req.body.email);
 	// Collections.UserCollection.forge({
 	// 	name: req.body.name,
 	// 	email: req.body.email
