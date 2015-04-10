@@ -24,6 +24,7 @@
     "lodash": "*",
     "method-override": "^2.3.2",
     "moment": "^2.9.0",
+    "multer": "^0.1.8",
     "pg": "*",
     "request": "*"
   },

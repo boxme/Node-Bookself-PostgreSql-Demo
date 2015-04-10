@@ -5,12 +5,13 @@ var Express = require("express"),
     Http = require("http"),
     BodyParser = require("body-parser"),
     Router = Express.Router(),
-    MethodOverride = require('method-override'),
+    MethodOverride = require("method-override"),
+    Multer = require("multer"),
     Db = require("./database.js"),
     UserController = require("./routes/user.js"),
     CategoryController = require("./routes/category.js");
 
-// App.set('port', 3000);
+App.use(Multer());
 App.use(MethodOverride());
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({extended: true}));
