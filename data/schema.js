@@ -3,13 +3,13 @@
 var Schema = {
 	users: {
 		id: {type: "increments", nullable: false, primary: true},
-		email: {type: "string", maxlength: 254, nullable: false, unqiue: true},
-		name: {type: "string", maxlength: 150, nullable: false}
+		email: {type: "string", fieldtype: 254, nullable: false, unique: true},
+		name: {type: "string", fieldtype: 150, nullable: false}
 	},
 
 	categories: {
 		id: {type: "increments", nullable: false, primary: true},
-		name: {type: "string", maxlength: 150, nullable: false, unqiue: true}
+		name: {type: "string", maxlength: 150, nullable: false, unique: true}
 	},
 
 	blogposts: {

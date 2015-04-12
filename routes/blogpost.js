@@ -15,8 +15,9 @@ BlogpostController.getAll = function (req, res) {
 };
 
 BlogpostController.getPost = function (req, res) {
-	Collections.BlogpostCollection.forge({
-		id: req.params.id
+	Collections.BlogpostCollection.forge()
+	.query(function (qb) {
+		qb.where("id", "=", req.params.id);
 	})
 	.fetch({
 		withRelated: ["categories", "tags"]

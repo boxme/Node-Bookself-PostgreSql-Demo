@@ -13,6 +13,7 @@ var createTable = function (tableName) {
 		var columnKeys = _.keys(Schema[tableName]);
 
 		columnKeys.forEach(function (key) {
+
 			if (Schema[tableName][key].type === "text" && Schema[tableName][key].hasOwnProperty("fieldtype")) {
 				column = table[Schema[tableName][key].type](key, Schema[tableName][key].fieldtype);
 			} else if (Schema[tableName][key].type === "string" && Schema[tableName][key].hasOwnProperty("maxlength")) {
@@ -20,7 +21,7 @@ var createTable = function (tableName) {
 			} else {
 				column = table[Schema[tableName][key].type](key);
 			}
-
+			
 			if (Schema[tableName][key].hasOwnProperty("nullable") && Schema[tableName][key].nullable === true) {
 				column.nullable();
 			} else {
@@ -31,11 +32,11 @@ var createTable = function (tableName) {
 				column.primary();
 			}
 
-			if (Schema[tableName][key].hasOwnProperty("unique") && Schema[tableName][key].unique) {
+			if (Schema[tableName][key].hasOwnProperty("unique") && Schema[tableName][key].unique === true) {
 				column.unique();
 			}
 
-			if (Schema[tableName][key].hasOwnProperty("unsigned") && Schema[tableName][key].unsigned) {
+			if (Schema[tableName][key].hasOwnProperty("unsigned") && Schema[tableName][key].unsigned === true) {
 				column.unsigned();
 			}
 
