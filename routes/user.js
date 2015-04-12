@@ -5,9 +5,11 @@ var UserController = {},
 
 UserController.getAll = function (req, res) {
 	Collections.UserCollection.forge()
+	// .query(function (qb) {
+	// 	qb.where("id", "<", "8").andWhere("name", "=", "desmond");
+	// })
 	.fetch()
 	.then(function (result) {
-		console.log(result);
 		res.status(200).json(result);
 	})
 	.catch(function (err) {
@@ -16,33 +18,29 @@ UserController.getAll = function (req, res) {
 };
 
 UserController.create = function (req, res) {
-	console.log("create new user");
-	console.log(req.body.name);
-	console.log(req.body.email);
-	// Collections.UserCollection.forge({
-	// 	name: req.body.name,
-	// 	email: req.body.email
-	// })
-	// .create()
-	// .then(function (result) {
-	// 	console.log(result);
-	// 	res.status(200).json(result);
-	// })
-	// .othewise(function (err) {
-	// 	res.status(500).json(err);
-	// });
+	Collections.UserCollection.forge()
+	.create({
+		name: req.body.name,
+		email: req.body.email.toLowerCase()
+	})
+	.then(function (result) {
+		res.status(200).json(result);
+	})
+	.catch(function (err) {
+		res.status(500).json(err);
+	});
 };
 
 UserController.getUser = function (req, res) {
-	Collections.UserCollection.forge({
-		id: req.params.id
+	Collections.UserCollection.forge()
+	.query(function (qb) {
+		qb.where("id", "=", req.params.id);
 	})
-	.fetch()
+	.fetchOne()
 	.then(function (result) {
 		if (!result) {
 			res.status(404).json({});
 		} else {
-			console.log(result);
 			res.status(200).json(result)
 		}
 	})
@@ -52,17 +50,19 @@ UserController.getUser = function (req, res) {
 };
 
 UserController.update = function (req, res) {
-	Collections.UserCollection.forge({
-		id: req.params.id
+	Collections.UserCollection.forge()
+	.query(function (qb) {
+		qb.where("id", "=", req.params.id);
 	})
-	.fetch({
+	.fetchOne({
 		require: true
 	})
 	.then(function (user) {
 		if (!user) {
 			res.status(404).json({});
 		} else {
-			user.create({
+			user
+			.save({
 				name: req.body.name || user.get("name"),
 				email: req.body.email || user.get("email")
 			})
@@ -80,10 +80,11 @@ UserController.update = function (req, res) {
 };
 
 UserController.destroy = function (req, res) {
-	Collections.UserCollection.forge({
-		id: req.params.id
+	Collections.UserCollection.forge()
+	.query(function (qb) {
+		qb.where("id", "=", req.params.id);
 	})
-	.fetch({
+	.fetchOne({
 		require: true
 	})
 	.then(function (user) {
