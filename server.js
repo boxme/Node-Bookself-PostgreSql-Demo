@@ -27,7 +27,7 @@ App.put("/users/:id", UserController.update);
 App.delete("/users/:id", UserController.destroy);
 
 App.get("/categories", CategoryController.getAll);
-App.get("categories/:id", CategoryController.getCategory);
-App.post("categories/", CategoryController.create);
-App.put("categories/:id", CategoryController.update);
-App.delete("categories/:id", CategoryController.destroy);
+App.get("/categories/:id", CategoryController.getCategory);
+App.post("/categories", CategoryController.create);
+App.put("/categories/:id", CategoryController.update);
+App.delete("/categories/:id", CategoryController.destroy);

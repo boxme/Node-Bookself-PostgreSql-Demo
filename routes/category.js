@@ -15,10 +15,10 @@ CategoryController.getAll = function (req, res) {
 };
 
 CategoryController.create = function (req, res) {
-	Collections.CategoryCollection.forge({
+	Collections.CategoryCollection.forge()
+	.create({
 		name: req.body.name
 	})
-	.create()
 	.then(function (result) {
 		res.status(200).json(result);
 	})
@@ -28,10 +28,11 @@ CategoryController.create = function (req, res) {
 };
 
 CategoryController.getCategory = function (req, res) {
-	Collections.CategoryCollection.forge({
-		id: req.params.id
+	Collections.CategoryCollection.forge()
+	.query(function (qb) {
+		qb.where("id", "=", req.params.id);
 	})
-	.fetch()
+	.fetchOne()
 	.then(function (category) {
 		if (!category) {
 			res.status(404).json({});
@@ -46,14 +47,15 @@ CategoryController.getCategory = function (req, res) {
 };
 
 CategoryController.update = function (req, res) {
-	Collections.CategoryCollection.forge({
-		id: req.params.id
+	Collections.CategoryCollection.forge()
+	.query(function (qb) {
+		qb.where("id", "=", req.params.id);
 	})
-	.fetch({
+	.fetchOne({
 		require: true
 	})
 	.then(function (category) {
-		category.create({
+		category.save({
 			name: req.body.name || category.get("name")
 		})
 		.then(function (result) {
@@ -69,10 +71,11 @@ CategoryController.update = function (req, res) {
 };
 
 CategoryController.destroy = function (req, res) {
-	Collections.CategoryCollection.forge({
-		id: req.params.id
+	Collections.CategoryCollection.forge()
+	.query(function (qb) {
+		qb.where("id", "=", req.params.id);
 	})
-	.fetch({
+	.fetchOne({
 		require: true
 	})
 	.then(function (category) {
