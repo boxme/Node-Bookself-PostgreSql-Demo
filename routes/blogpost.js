@@ -19,7 +19,7 @@ BlogpostController.getPost = function (req, res) {
 	.query(function (qb) {
 		qb.where("id", "=", req.params.id);
 	})
-	.fetch({
+	.fetchOne({
 		withRelated: ["categories", "tags"]
 	})
 	.then(function (post) {

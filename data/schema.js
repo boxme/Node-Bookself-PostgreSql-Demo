@@ -24,7 +24,7 @@ var Schema = {
 
 	tags: {
 		id: {type: "increments", nullable: false, primary: true},
-		name: {type: "string", nullable: false}
+		name: {type: "string", nullable: false, unique: true}
 	},
 
 	// A table for many-to-many relation between tags table & posts table
