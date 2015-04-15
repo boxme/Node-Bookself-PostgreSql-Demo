@@ -23,7 +23,7 @@
     "knex": "*",
     "lodash": "*",
     "method-override": "^2.3.2",
-    "moment": "^2.9.0",
+    "moment": "^2.10.2",
     "multer": "^0.1.8",
     "pg": "*",
     "request": "*"

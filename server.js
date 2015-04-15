@@ -9,7 +9,9 @@ var Express = require("express"),
     Multer = require("multer"),
     Db = require("./database.js"),
     UserController = require("./routes/user.js"),
-    CategoryController = require("./routes/category.js");
+    CategoryController = require("./routes/category.js"),
+    BlogpostController = require("./routes/blogpost.js"),
+    TagController = require("./routes/tag.js");
 
 App.use(Multer());
 App.use(MethodOverride());
@@ -31,3 +33,10 @@ App.get("/categories/:id", CategoryController.getCategory);
 App.post("/categories", CategoryController.create);
 App.put("/categories/:id", CategoryController.update);
 App.delete("/categories/:id", CategoryController.destroy);
+
+App.get("/blogpost", BlogpostController.getAll);
+App.get("/blogpost/:id", BlogpostController.getPost);
+App.post("/blogpost", BlogpostController.create);
+
+App.get("/tag", TagController.get);
+// App.post("/tag", TagController.create);

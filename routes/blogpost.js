@@ -1,6 +1,8 @@
 "use strict";
 
 var BlogpostController = {},
+	Moment = require("moment"),
+	TagsController = require("./tag.js"),
 	Collections = require("../data/collection.js");
 
 BlogpostController.getAll = function (req, res) {
@@ -46,23 +48,31 @@ BlogpostController.create = function (req, res) {
 	}
 
 	// Save post
-	Collections.BlogpostCollection.forge({
+	Collections.BlogpostCollection.forge()
+	.create({
 		user_id: req.body.user_id,
 		category_id: req.body.category_id,
 		title: req.body.title,
-		html: req.body.post
+		html: req.body.content,
+		created_at: Moment().format()
 	})
-	.create()
-	.then(function (result) {
+	.then(function (blogpost) {
 		// save tags
-
+		TagsController.create(tags)
+		.then(function (ids) {
+			blogpost.tags().attach(ids);
+			res.status(200).json(blogpost);
+		})
+		.catch(function (err) {
+			res.status(500).json({message: err.message});
+		});
 	})
 	.catch(function (err) {
-		res.status(500).json(err);
+		res.status(500).json({message: err.message});
 	});
 };
 
-
+module.exports = BlogpostController;
 
 
 
