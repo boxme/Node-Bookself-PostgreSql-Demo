@@ -16,22 +16,30 @@ var Bookshelf = require("bookshelf")(Knex);
 Bookshelf.plugin("visibility");
 
 var User = Bookshelf.Model.extend({
-	tableName: "users"
+	tableName: "users",
+	blogpost: function() {
+		// one-to-many
+		this.hasMany(Blogpost, "blogpost_id");
+	}
 });
 exports.User = User;
 
 var Category = Bookshelf.Model.extend({
-	tableName: "categories"
+	tableName: "categories",
+	blogpost: function() {
+		// one-to-many
+		this.hasMany(Blogpost, "blogpost_id");
+	}
 });
 exports.Category = Category;
 
 var Blogpost = Bookshelf.Model.extend({
 	tableName: "blogposts",
 	category: function() {
-		// one-to-one or one-to-many
+		// one-to-one or many-to-one
 		return this.belongsTo(Category, "category_id");
 	},
-	tags: function() {
+	tag: function() {
 		// many-to-many
 		// 1st param: ClassName of related table
 		// 2nd param: Name of related table
