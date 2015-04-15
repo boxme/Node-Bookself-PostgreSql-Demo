@@ -36,7 +36,7 @@ var Blogpost = Bookshelf.Model.extend({
 		// 1st param: ClassName of related table
 		// 2nd param: Name of related table
 		// Other params: Foreign Keys
-		return this.belongsToMany(Tag, "posts_tags", "tag_id");
+		return this.belongsToMany(Tag, "posts_tags", "post_id");
 	},
 	author: function() {
 		// Bookshelf assumes that table names are plurals 
@@ -49,7 +49,7 @@ exports.Blogpost = Blogpost;
 var Tag = Bookshelf.Model.extend({
 	tableName: "tags",
 	blogpost: function() {
-		return this.belongsToMany(Blogpost, "posts_tags", "post_id");
+		return this.belongsToMany(Blogpost, "posts_tags", "tag_id");
 	}
 });
 exports.Tag = Tag;

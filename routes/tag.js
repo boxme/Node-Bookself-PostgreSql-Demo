@@ -50,7 +50,7 @@ TagController.create = function (tags) {
 	});
 
 	// Get tags that already existed
-	TagController.getMatchingTags(tags)
+	return TagController.getMatchingTags(tags)
 	.then(function (existingTags) {		
 		
 		var doNotExist = [];
@@ -68,7 +68,9 @@ TagController.create = function (tags) {
 		}
 
 		// Save tags that do not exist
-		return Collections.TagsCollection.forge(doNotExist).mapThen(function (model) {
+		return Collections.TagsCollection
+		.forge(doNotExist)
+		.mapThen(function (model) {
 			return model
 					.save()
 					.then(function () {

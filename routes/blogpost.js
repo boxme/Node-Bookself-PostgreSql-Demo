@@ -2,7 +2,7 @@
 
 var BlogpostController = {},
 	Moment = require("moment"),
-	TagsController = require("./tag.js"),
+	TagController = require("./tag.js"),
 	Collections = require("../data/collection.js");
 
 BlogpostController.getAll = function (req, res) {
@@ -58,8 +58,9 @@ BlogpostController.create = function (req, res) {
 	})
 	.then(function (blogpost) {
 		// save tags
-		TagsController.create(tags)
+		TagController.create(tags)
 		.then(function (ids) {
+			console.log("Attached ids to blogpost");
 			blogpost.tags().attach(ids);
 			res.status(200).json(blogpost);
 		})
