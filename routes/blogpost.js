@@ -91,8 +91,15 @@ BlogpostController.update = function (req, res) {
 				if (tags.length > 0) {
 					TagController.create(tags)
 					.then(function (ids) {
+						// Save only newly added tags
+						ids = result.toJSON().tag.filter(function (tag) {
+							return ids.indexOf(tag.id) < 0;
+						});
+
+						console.log(ids);
+
 						result.tag().attach(ids);
-						res.status(200).json("");
+						res.status(200).json("blogpost updated");
 					})
 					.catch(function (err) {
 						res.status(500).json({message: err.message});
