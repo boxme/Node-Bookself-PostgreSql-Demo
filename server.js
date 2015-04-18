@@ -37,6 +37,8 @@ App.delete("/categories/:id", CategoryController.destroy);
 App.get("/blogpost", BlogpostController.getAll);
 App.get("/blogpost/:id", BlogpostController.getPost);
 App.post("/blogpost", BlogpostController.create);
+App.put("/blogpost/:id", BlogpostController.update);
+App.delete("/blogpost/:id", BlogpostController.destroy);
 
 App.get("/tag", TagController.get);
 // App.post("/tag", TagController.create);
