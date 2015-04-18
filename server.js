@@ -25,6 +25,8 @@ Http.createServer(App).listen(3000);
 App.get("/users", UserController.getAll);
 App.get("/users/:id", UserController.getUser);
 App.post("/users", UserController.create);
+App.post("/users/login", UserController.login);
+App.post("/users/logout", UserController.logout);
 App.put("/users/:id", UserController.update);
 App.delete("/users/:id", UserController.destroy);
 

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "async": "*",
+    "bcrypt": "^0.8.2",
     "bluebird": "*",
     "body-parser": "*",
     "bookshelf": "*",
