@@ -60,7 +60,7 @@ BlogpostController.create = function (req, res) {
 		// save tags
 		TagController.create(tags)
 		.then(function (ids) {
-			blogpost.tags().attach(ids);
+			blogpost.tag().attach(ids);
 			res.status(200).json(blogpost);
 		})
 		.catch(function (err) {
