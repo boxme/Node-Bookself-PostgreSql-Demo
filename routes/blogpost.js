@@ -17,12 +17,17 @@ BlogpostController.getAll = function (req, res) {
 };
 
 BlogpostController.getPost = function (req, res) {
+	// To get back the tags in alphabatical order
+	var tagRelation = function (qb) {
+		qb.orderBy("name");
+	};
+
 	Collections.BlogpostCollection.forge()
 	.query(function (qb) {
 		qb.where("id", "=", req.params.id);
 	})
-	.fetchOne({
-		withRelated: ["categories", "tags"]
+	.fetch({
+		withRelated: ["category", {"tag" : tagRelation}]
 	})
 	.then(function (post) {
 		if (!post) {
@@ -32,7 +37,7 @@ BlogpostController.getPost = function (req, res) {
 		}
 	})
 	.catch(function (err) {
-		res.status(500).json(err);
+		res.status(500).json({message: err.message});
 	});
 };
 
