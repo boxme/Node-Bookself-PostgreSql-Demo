@@ -112,7 +112,31 @@ BlogpostController.update = function (req, res) {
 };
 
 BlogpostController.destroy = function (req, res) {
+	getBlogpostWithId(req.params.id)
+	.then(function (blogpost) {
+		if (!blogpost) {
+			res.status(404).json({error:"Blogpost not found", message: err.message});
+		} else {
+			var tagIds = blogpost.toJSON().tag.map(function (tag) {
+				return tag.id;
+			});
 
+			// Delete many-to-many relations first
+			blogpost.tag().detach(tagIds);
+
+			// Then delete the model itself
+			blogpost.destroy()
+			.then(function () {
+				res.status(200).json({});
+			})
+			.catch(function (err) {
+				res.status(500).json({error:"Blogpost delete failed", message: err.message})
+			});
+		}
+	})
+	.catch(function (err) {
+		res.status(500).json({message: err.message})
+	});
 };
 
 var getBlogpostWithId = function (id) {
