@@ -96,8 +96,6 @@ BlogpostController.update = function (req, res) {
 							return ids.indexOf(tag.id) < 0;
 						});
 
-						console.log(ids);
-
 						result.tag().attach(ids);
 						res.status(200).json("blogpost updated");
 					})

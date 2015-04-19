@@ -13,6 +13,7 @@ UserController.getAll = function (req, res) {
 	// })
 	.fetch()
 	.then(function (result) {
+		result = result.map(removePasswordFromUserData);
 		res.status(200).json(result);
 	})
 	.catch(function (err) {
@@ -70,7 +71,7 @@ UserController.login = function (req, res) {
 		}
 	})
 	.then(function (user) {
-		var token = user.get("token");
+		user = removePasswordFromUserData(user);
 		res.status(200).json(user);
 	})
 	.catch(function (err) {
@@ -103,6 +104,7 @@ UserController.getUser = function (req, res) {
 		if (!result) {
 			res.status(404).json({});
 		} else {
+			result = removePasswordFromUserData(result);
 			res.status(200).json(result)
 		}
 	})
@@ -129,6 +131,7 @@ UserController.update = function (req, res) {
 				email: req.body.email || user.get("email")
 			})
 			.then(function (result) {
+				result = removePasswordFromUserData(result);
 				res.status(200).json(result);
 			})
 			.catch(function (err) {
@@ -165,6 +168,14 @@ UserController.destroy = function (req, res) {
 	.catch(function (err) {
 		res.status(500).json(err);
 	})
+};
+
+var removePasswordFromUserData = function (user) {
+	var userObject = user.toJSON();
+	if (userObject.hasOwnProperty("password")) {
+		delete(userObject.password);
+	}
+	return userObject;
 };
 
 module.exports = UserController;
