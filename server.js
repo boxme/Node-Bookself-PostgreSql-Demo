@@ -8,6 +8,7 @@ var Express = require("express"),
     MethodOverride = require("method-override"),
     Multer = require("multer"),
     Db = require("./database.js"),
+    AuthController = require("./routes/auth.js"),
     UserController = require("./routes/user.js"),
     CategoryController = require("./routes/category.js"),
     BlogpostController = require("./routes/blogpost.js"),
@@ -23,24 +24,24 @@ Db.initialisation();
 Http.createServer(App).listen(3000);
 
 App.get("/users", UserController.getAll);
-App.get("/users/:id", UserController.getUser);
+App.get("/users/:id", AuthController.requireUser(), UserController.getUser);
 App.post("/users", UserController.create);
 App.post("/users/login", UserController.login);
-App.post("/users/logout", UserController.logout);
-App.put("/users/:id", UserController.update);
-App.delete("/users/:id", UserController.destroy);
+App.post("/users/logout", AuthController.requireUser(), UserController.logout);
+App.put("/users/:id", AuthController.requireUser(), UserController.update);
+App.delete("/users/:id",AuthController.requireUser(), UserController.destroy);
 
 App.get("/categories", CategoryController.getAll);
 App.get("/categories/:id", CategoryController.getCategory);
-App.post("/categories", CategoryController.create);
-App.put("/categories/:id", CategoryController.update);
-App.delete("/categories/:id", CategoryController.destroy);
+App.post("/categories", AuthController.requireUser(), CategoryController.create);
+App.put("/categories/:id", AuthController.requireUser(), CategoryController.update);
+App.delete("/categories/:id", AuthController.requireUser(), CategoryController.destroy);
 
 App.get("/blogpost", BlogpostController.getAll);
-App.get("/blogpost/:id", BlogpostController.getPost);
-App.post("/blogpost", BlogpostController.create);
-App.put("/blogpost/:id", BlogpostController.update);
-App.delete("/blogpost/:id", BlogpostController.destroy);
+App.get("/blogpost/:id", AuthController.requireUser(), BlogpostController.getPost);
+App.post("/blogpost", AuthController.requireUser(), BlogpostController.create);
+App.put("/blogpost/:id", AuthController.requireUser(), BlogpostController.update);
+App.delete("/blogpost/:id", AuthController.requireUser(), BlogpostController.destroy);
 
 App.get("/tag", TagController.get);
 // App.post("/tag", TagController.create);
